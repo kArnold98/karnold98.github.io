@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kevin Arnold - The Day Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #1a1a1a;
+            color: #fff;
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+
+        header .subtitle {
+            font-size: 1.3em;
+            color: #ccc;
+            font-style: italic;
+        }
+
+        header .period {
+            font-size: 1em;
+            color: #999;
+            margin-top: 10px;
+        }
+
+        .intro {
+            background-color: #fff;
+            padding: 30px;
+            margin-bottom: 40px;
+            border-left: 4px solid #1a1a1a;
+        }
+
+        .intro p {
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        .beat-section {
+            background-color: #fff;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .beat-section h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+            border-bottom: 3px solid #1a1a1a;
+            padding-bottom: 10px;
+        }
+
+        .beat-section .beat-description {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.05em;
+        }
+
+        .article {
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .article:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .article h3 {
+            font-size: 1.4em;
+            margin-bottom: 8px;
+        }
+
+        .article h3 a {
+            color: #1a1a1a;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .article h3 a:hover {
+            color: #0066cc;
+        }
+
+        .article .date {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .article .summary {
+            color: #555;
+            font-size: 1.05em;
+            line-height: 1.7;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            background-color: #fff;
+            margin-top: 40px;
+        }
+
+        footer .contact {
+            margin-top: 20px;
+        }
+
+        footer a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            background-color: #f9f9f9;
+            padding: 30px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .stat-item {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #1a1a1a;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .beat-section {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Kevin Arnold</h1>
+        <div class="subtitle">Staff Writer, The Day</div>
+        <div class="period">2022 - 2023</div>
+    </header>
+
+    <div class="container">
+        <div class="intro">
+            <p>A portfolio of local journalism covering southeastern Connecticut communities, focusing on municipal government, education, development, and community issues. These stories document the challenges and changes facing small towns in the region during a period of post-pandemic recovery and growth.</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">14</div>
+                <div class="stat-label">Articles</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Beats Covered</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Years</div>
+            </div>
+        </div>
+
+        <!-- Montville Coverage -->
+        <div class="beat-section">
+            <h2>Montville</h2>
+            <div class="beat-description">Coverage of town government, education, and community services in Montville, Connecticut</div>
+
+            <div class="article">
+                <h3><a href="https://www.theday.com/local-news/20230526/st-bernard-graduates-64-seniors/" target="_blank">St. Bernard graduates 64 seniors</a></h3>
+                <div class="date">May 26, 2023</div>
+                <div class="summary">Coverage of St. Bernard School's graduation ceremony, featuring 64 seniors and remarks about the school's future following earlier news of potential closure.</div>
+            </div>
+
+            <div class="article">
+                <h3><a href="https://www.theday.com/local-news/20230325/montville-says-no-to-tax-assessment-agreement-for-oxoboxo-lofts-project/" target="_blank">Montville says 'no' to tax assessment agreement for Oxoboxo Lofts project</a></h3>
+                <div class="date">March 25, 2023</div>
+                <div class="summary">The Town Council voted down a real estate tax assessment agreement for a proposed 72-unit apartment complex, citing concerns about the development's impact on the community.</div>
+            </div>
+
+            <div class="article">
+                <h3><a href="https://www.theday.com/local-news/20230201/group-of-st-bernard-alumni-offer-to-purchase-school/" target="_blank">Group of St. Bernard alumni offer to purchase school</a></h3>
+                <div class="date">February 1, 2023</div>
+                <div class="summary">Former students of St. Bernard School organized an effort to keep the Montville institution open, proposing to purchase the school from the Diocese of Norwich.</div>
+            </div>
+
+            <div class="article">
+                <h3><a href="https://www.theday.com/local-news/20221210/make-a-difference-montville-social-services-8/" target="_blank">Make a Difference: Montville Social Services</a></h3>
+                <div class="date">December 10, 2022</div>
+                <div class="summary">A feature story highlighting the work of Montville's Social Services department and the assistance they provide to community members in need.</div>
+            </div>
+
+            <div class="article">
+                <h3><a href="https://www.theday.com/local-news/20221115/montville-sets-up-policies-for-independent-police-department/" target="_blank">Montville sets up policies for independent police department</a></h3>
+                <div class="date">November 15, 2022</div>
+                <div class="summary">The Town Council unanimously approved new policies and procedures for Montville's future independent police department, marking a significant step in the town's law enforcement transition.</div>
+            </div>
+
+            <div class="article">
+                <h3><a href="https://www.theday.com/local-news/20221026/montville-to-survey-needs-of-local-business-owners/" target="_blank">Montville to survey needs of local business owners</a></h3>
+                <div class="date">October 26, 2022</div>
+                <div class="summary">The Economic Development Commission launched an online survey to better understand and address the needs of local businesses in the community.</div>
+            </div>
+
+            <div class="article">
+                <h3><a href="https://www.theday.com/local-news/20220830/montville-schools-announce-free-and-reduced-price-meal-eligibility/" target="_blank">Montville schools announce free and reduced-price meal eligibility</a></h3>
+                <div class="date">August 30, 2022</div>
+                <div class="summary">School officials announced the district's policy for determining student eligibility for free and reduced-price meals for the upcoming school year.</div>
+            </div>
+        </div>
+
+        <!-- Waterford Coverage -->
+        <div class="beat-section">
+            <h2>Waterford</h2>
+            <div class="beat-description">Municipal government, planning, and development reporting in Waterford, Connecticut</div>
+
+            <div class="article">
+                <h3><a href="https://www.theday.com/local-news/20230523/waterford-approves-216-unit-housing-development/" target="_blank">Waterford approves 216-unit housing development</a></h3>
+                <div class="date">May 23, 2023</div>
+                <div class="summary">The Planning and Zoning Commission approved a major residential development project that will bring 216 new housing units to Waterford.</div>
+            </div>
+
+            <div class="article">
+                <h3><a href="https://www.theday.com/local-news/20230513/millstone-doesnt-want-its-nuclear-waste-but-somebody-might/" target="_blank">Millstone doesn't want its nuclear waste, but somebody might</a></h3>
+                <div class="date">May 13, 2023</div>
+                <div class="summary">Coverage of federal efforts to find interim storage sites for spent nuclear fuel, featuring Rep. Joe Courtney's work to secure funding and advance consent-based siting processes for communities interested in hosting nuclear waste facilities.</div>
+            </div>
+
+            <div class="article">
+                <h3><a href="https://www.theday.com/local-news/20230415/community-invited-to-discuss-future-of-seaside-state-park/" target="_blank">Community invited to discuss future of Seaside State Park</a></h3>
+                <div class="date">April 15, 2023</div>
+                <div class="summary">State officials held a community meeting to gather input on the future plans and improvements for Seaside State Park in Waterford.</div>
+            </div>
+
+            <div class="article">
+                <h3><a href="https://www.theday.com/local-news/20230316/revaluation-boosts-waterford-grand-list-by-more-than-29/" target="_blank">Revaluation boosts Waterford grand list by more than 29%</a></h3>
+                <div class="date">March 16, 2023</div>
+                <div class="summary">Waterford's 2022 grand list increased 29.4% following a town-wide property revaluation, reflecting significant growth in property values.</div>
+            </div>
+
+            <div class="article">
+                <h3><a href="https://www.theday.com/local-news/20221115/developer-proposes-40-new-homes-in-waterford/" target="_blank">Developer proposes 40 new homes in Waterford</a></h3>
+                <div class="date">November 15, 2022</div>
+                <div class="summary">Adams Builders presented plans for a new residential development to the Planning and Zoning Commission, seeking approval for 40 new homes.</div>
+            </div>
+
+            <div class="article">
+                <h3><a href="https://www.theday.com/local-news/20221115/waterford-bans-recreational-cannabis-sales/" target="_blank">Waterford bans recreational cannabis sales</a></h3>
+                <div class="date">November 15, 2022</div>
+                <div class="summary">The town updated its zoning regulations to prohibit recreational cannabis dispensaries and other marijuana-related businesses within town limits.</div>
+            </div>
+        </div>
+
+        <!-- Political Coverage -->
+        <div class="beat-section">
+            <h2>Political Coverage</h2>
+            <div class="beat-description">Interviews and coverage of local political races and candidates</div>
+
+            <div class="article">
+                <h3><a href="https://www.theday.com/video/20221011/interview-with-kathleen-mccarty-r-38th-house-district/" target="_blank">Interview with Kathleen McCarty (R - 38th House District)</a></h3>
+                <div class="date">October 11, 2022</div>
+                <div class="summary">Video interview with Republican candidate Kathleen McCarty during her campaign for the 38th House District seat.</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 Kevin Arnold | Portfolio of work from The Day newspaper</p>
+        <div class="contact">
+            <p>Previously: Staff Writer at <a href="https://www.theday.com" target="_blank">The Day</a> (New London, Connecticut)</p>
+        </div>
+    </footer>
+</body>
+</html>
