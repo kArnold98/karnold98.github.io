@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFL Playoffs Bracket Pool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #1a1a1a;
+            color: #fff;
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+
+        header .subtitle {
+            font-size: 1.3em;
+            color: #ccc;
+            font-style: italic;
+        }
+
+        .back-link {
+            background-color: #fff;
+            padding: 15px 30px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .back-link a {
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 0;
+            margin-bottom: 0;
+            background-color: #fff;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: none;
+            border-bottom: 3px solid #e0e0e0;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-family: 'Georgia', serif;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .tab-button:hover {
+            background-color: #fff;
+            color: #333;
+        }
+
+        .tab-button.active {
+            background-color: #fff;
+            border-bottom: 3px solid #1a1a1a;
+            color: #1a1a1a;
+            font-weight: bold;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            background-color: #fff;
+            padding: 40px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-content h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+            border-bottom: 3px solid #1a1a1a;
+            padding-bottom: 10px;
+        }
+
+        /* Status Bar */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #1a1a1a;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+            color: #666;
+        }
+
+        .status-bar .timestamp {
+            font-style: italic;
+        }
+
+        .status-bar .refresh-indicator {
+            display: none;
+            color: #0066cc;
+        }
+
+        .status-bar .refresh-indicator.active {
+            display: inline;
+        }
+
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.05em;
+        }
+
+        thead {
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+        }
+
+        th.rank-col,
+        th.points-col,
+        th.year-col {
+            text-align: center;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        td.rank-col,
+        td.points-col,
+        td.year-col {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+            font-style: italic;
+            font-size: 1.1em;
+        }
+
+        /* Error State */
+        .error-state {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .error-state h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .error-state p {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .retry-button {
+            background-color: #1a1a1a;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1em;
+            font-family: 'Georgia', serif;
+        }
+
+        .retry-button:hover {
+            background-color: #333;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            background-color: #fff;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .tab-nav {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                border-bottom: 1px solid #e0e0e0;
+                border-left: 3px solid #e0e0e0;
+            }
+
+            .tab-button.active {
+                border-left: 3px solid #1a1a1a;
+                border-bottom: 1px solid #e0e0e0;
+            }
+
+            .tab-content {
+                padding: 25px;
+            }
+
+            .status-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            th, td {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>NFL Playoffs Bracket Pool</h1>
+        <div class="subtitle">Live Standings & History</div>
+    </header>
+
+    <div class="container">
+        <div class="back-link">
+            <a href="../index.html">&larr; Back to Portfolio</a>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+            <button class="tab-button active" data-tab="current">Current Year Standings</button>
+            <button class="tab-button" data-tab="history">Historical Winners</button>
+        </div>
+
+        <!-- Current Year Tab -->
+        <div id="current-tab" class="tab-content active">
+            <h2>2025 Season Standings</h2>
+
+            <div class="status-bar">
+                <div class="timestamp" id="current-timestamp">Loading...</div>
+                <div class="refresh-indicator" id="refresh-indicator">Refreshing...</div>
+            </div>
+
+            <div id="current-error" class="error-state" style="display: none;">
+                <h3>Unable to Load Data</h3>
+                <p id="current-error-message">Failed to fetch standings data.</p>
+                <button class="retry-button" onclick="loadCurrentStandings()">Retry</button>
+            </div>
+
+            <div class="table-wrapper">
+                <table id="standings-table">
+                    <thead>
+                        <tr>
+                            <th class="rank-col">Rank</th>
+                            <th>Participant</th>
+                            <th class="points-col">Points</th>
+                        </tr>
+                    </thead>
+                    <tbody id="standings-body">
+                        <tr>
+                            <td colspan="3" class="loading">Loading standings...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Historical Winners Tab -->
+        <div id="history-tab" class="tab-content">
+            <h2>Past Champions</h2>
+
+            <div class="status-bar">
+                <div class="timestamp" id="history-timestamp">Loading...</div>
+            </div>
+
+            <div id="history-error" class="error-state" style="display: none;">
+                <h3>Unable to Load Data</h3>
+                <p id="history-error-message">Failed to fetch historical data.</p>
+                <button class="retry-button" onclick="loadHistoricalWinners()">Retry</button>
+            </div>
+
+            <div class="table-wrapper">
+                <table id="history-table">
+                    <thead>
+                        <tr>
+                            <th class="year-col">Year</th>
+                            <th>Winner</th>
+                            <th class="points-col">Points</th>
+                            <th>Runner-Up</th>
+                            <th class="points-col">Points</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-body">
+                        <tr>
+                            <td colspan="5" class="loading">Loading history...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 NFL Playoffs Bracket Pool</p>
+        <p style="margin-top: 10px; font-size: 0.9em;">
+            Data updates automatically every 5 minutes
+        </p>
+    </footer>
+
+    <script>
+        // Configuration
+        const CONFIG = {
+            sheets: {
+                // Current year bracket
+                current: 'https://docs.google.com/spreadsheets/d/1_LGgwI72-eIRc0RzqOl7LDkZE4cuMRPReo1KUnZ4rxE/export?format=csv&gid=0',
+
+                // Historical brackets (most recent first)
+                historical: [
+                    'https://docs.google.com/spreadsheets/d/1gUxEk8MnLhA8qsjW7gNZuSmP0EHy-RYAeFCtAAVzzdE/export?format=csv&gid=0', // 2024-25
+                    'https://docs.google.com/spreadsheets/d/1bgmcn2vVN-pQOPEgFDuNOu5_o44lyfciXR-XO05Kvfk/export?format=csv&gid=0', // 2023-24
+                    'https://docs.google.com/spreadsheets/d/16aQGsmikDJ0BsAMhUXwLmZwOvK3RBy8zOj0HXOw670Y/export?format=csv&gid=0', // 2022-23
+                    'https://docs.google.com/spreadsheets/d/1yKzbD-yynrcIV8HCmukEl83HwNqzDmST2eouKqCn8FM/export?format=csv&gid=0', // 2021-22
+                    'https://docs.google.com/spreadsheets/d/1R3FnFtOxvYFjfGWoPIZVglA-5vT-X_b_jtsUk5E8xT0/export?format=csv&gid=0'  // 2020-21
+                ]
+            },
+            refreshInterval: 5 // minutes
+        };
+
+        // State
+        let refreshTimer = null;
+        let currentTab = 'current';
+
+        // ===== CSV Fetcher =====
+        async function fetchGoogleSheet(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                const csvText = await response.text();
+                return csvText;
+            } catch (error) {
+                console.error('Failed to fetch Google Sheet:', error);
+                throw error;
+            }
+        }
+
+        // ===== Bracket Parser =====
+        function parseBracketSheet(csvText) {
+            if (!csvText || csvText.trim() === '') {
+                return null;
+            }
+
+            const lines = csvText.trim().split('\n');
+            if (lines.length < 4) {
+                return null;
+            }
+
+            // Extract year from title (row 2)
+            const titleRow = lines[1].split(',');
+            const title = titleRow.find(cell => cell.includes('NFL PLAYOFF BRACKET POOL'));
+            let year = null;
+            if (title) {
+                const match = title.match(/(\d{4})-(\d{2,4})/);
+                if (match) {
+                    year = match[1]; // Use the first year (e.g., "2025" from "2025-26")
+                }
+            }
+
+            // Extract participant names (row 3)
+            const nameRow = lines[2].split(',').map(cell => cell.trim().replace(/^"|"$/g, ''));
+            const participants = nameRow.slice(2).filter(name => name !== ''); // Skip first 2 empty columns
+
+            // Find the final points row
+            let pointsRow = null;
+            let rowLabel = '';
+            let allPointRows = [];
+
+            // Collect all POINT TOTALS rows and FINAL rows
+            for (let i = lines.length - 1; i >= 0; i--) {
+                const line = lines[i];
+                const cells = line.split(',');
+                const label = cells[0]?.trim();
+
+                if (label === 'FINAL BRACKET POINTS' || label === 'FINAL POINTS') {
+                    const points = cells.slice(2).map(p => parseInt(p) || 0);
+                    // Only use FINAL row if it has substantial data (more than 50% non-zero)
+                    const nonZeroCount = points.filter(p => p > 0).length;
+                    if (nonZeroCount > points.length * 0.5) {
+                        pointsRow = points;
+                        rowLabel = label;
+                        break;
+                    }
+                } else if (label === 'POINT TOTALS') {
+                    allPointRows.push({
+                        points: cells.slice(2).map(p => parseInt(p) || 0),
+                        label: label
+                    });
+                }
+            }
+
+            // If no valid FINAL row found, use the last (most recent) POINT TOTALS row
+            if (!pointsRow && allPointRows.length > 0) {
+                pointsRow = allPointRows[0].points; // First one because we searched backwards
+                rowLabel = allPointRows[0].label;
+            }
+
+            if (!pointsRow || participants.length === 0) {
+                return null;
+            }
+
+            // Create standings array
+            const standings = participants.map((name, index) => ({
+                name: name,
+                points: pointsRow[index] || 0
+            })).filter(s => s.name !== '');
+
+            return {
+                year,
+                standings,
+                rowLabel
+            };
+        }
+
+        // ===== Current Standings Renderer =====
+        async function loadCurrentStandings() {
+            const tbody = document.getElementById('standings-body');
+            const errorDiv = document.getElementById('current-error');
+            const errorMessage = document.getElementById('current-error-message');
+            const timestamp = document.getElementById('current-timestamp');
+
+            try {
+                // Hide error, show loading
+                errorDiv.style.display = 'none';
+                tbody.innerHTML = '<tr><td colspan="3" class="loading">Loading standings...</td></tr>';
+
+                // Fetch and parse bracket data
+                const csvText = await fetchGoogleSheet(CONFIG.sheets.current);
+                const bracketData = parseBracketSheet(csvText);
+
+                if (!bracketData || bracketData.standings.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="3" class="empty-state">No standings data available yet.</td></tr>';
+                    updateTimestamp('current');
+                    return;
+                }
+
+                // Sort by points (descending)
+                const sortedStandings = bracketData.standings.sort((a, b) => b.points - a.points);
+
+                // Render table
+                tbody.innerHTML = '';
+                sortedStandings.forEach((participant, index) => {
+                    const tr = document.createElement('tr');
+
+                    // Rank
+                    const rankTd = document.createElement('td');
+                    rankTd.className = 'rank-col';
+                    rankTd.textContent = index + 1;
+                    tr.appendChild(rankTd);
+
+                    // Participant
+                    const nameTd = document.createElement('td');
+                    nameTd.textContent = participant.name;
+                    tr.appendChild(nameTd);
+
+                    // Points
+                    const pointsTd = document.createElement('td');
+                    pointsTd.className = 'points-col';
+                    pointsTd.textContent = participant.points;
+                    tr.appendChild(pointsTd);
+
+                    tbody.appendChild(tr);
+                });
+
+                updateTimestamp('current');
+
+            } catch (error) {
+                console.error('Error loading current standings:', error);
+                errorMessage.textContent = `Failed to load standings: ${error.message}`;
+                errorDiv.style.display = 'block';
+                tbody.innerHTML = '';
+            }
+        }
+
+        // ===== Historical Winners Renderer =====
+        async function loadHistoricalWinners() {
+            const tbody = document.getElementById('history-body');
+            const errorDiv = document.getElementById('history-error');
+            const errorMessage = document.getElementById('history-error-message');
+            const timestamp = document.getElementById('history-timestamp');
+
+            try {
+                // Hide error, show loading
+                errorDiv.style.display = 'none';
+                tbody.innerHTML = '<tr><td colspan="5" class="loading">Loading history...</td></tr>';
+
+                // Fetch all historical sheets
+                const historicalSheets = Array.isArray(CONFIG.sheets.historical)
+                    ? CONFIG.sheets.historical
+                    : [CONFIG.sheets.historical];
+
+                const allYearsData = [];
+
+                // Fetch and parse each historical sheet
+                for (const sheetUrl of historicalSheets) {
+                    try {
+                        const csvText = await fetchGoogleSheet(sheetUrl);
+                        const bracketData = parseBracketSheet(csvText);
+
+                        if (bracketData && bracketData.standings.length > 0) {
+                            // Sort standings by points to find winner and runner-up
+                            const sortedStandings = [...bracketData.standings].sort((a, b) => b.points - a.points);
+                            const winner = sortedStandings[0];
+                            const runnerUp = sortedStandings[1];
+
+                            allYearsData.push({
+                                year: bracketData.year || 'N/A',
+                                winner: winner.name,
+                                winnerPoints: winner.points,
+                                runnerUp: runnerUp ? runnerUp.name : 'N/A',
+                                runnerUpPoints: runnerUp ? runnerUp.points : 0
+                            });
+                        }
+                    } catch (error) {
+                        console.error(`Error loading historical sheet: ${sheetUrl}`, error);
+                    }
+                }
+
+                if (allYearsData.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No historical data available yet.</td></tr>';
+                    updateTimestamp('history');
+                    return;
+                }
+
+                // Sort by year (most recent first)
+                allYearsData.sort((a, b) => {
+                    const yearA = parseInt(a.year) || 0;
+                    const yearB = parseInt(b.year) || 0;
+                    return yearB - yearA;
+                });
+
+                // Render table
+                tbody.innerHTML = '';
+                allYearsData.forEach(yearData => {
+                    const tr = document.createElement('tr');
+
+                    // Year
+                    const yearTd = document.createElement('td');
+                    yearTd.className = 'year-col';
+                    yearTd.textContent = yearData.year;
+                    tr.appendChild(yearTd);
+
+                    // Winner Name
+                    const winnerTd = document.createElement('td');
+                    winnerTd.textContent = yearData.winner;
+                    tr.appendChild(winnerTd);
+
+                    // Winner Points
+                    const winnerPointsTd = document.createElement('td');
+                    winnerPointsTd.className = 'points-col';
+                    winnerPointsTd.textContent = yearData.winnerPoints;
+                    tr.appendChild(winnerPointsTd);
+
+                    // Runner-Up
+                    const runnerUpTd = document.createElement('td');
+                    runnerUpTd.textContent = yearData.runnerUp;
+                    tr.appendChild(runnerUpTd);
+
+                    // Runner-Up Points
+                    const runnerUpPointsTd = document.createElement('td');
+                    runnerUpPointsTd.className = 'points-col';
+                    runnerUpPointsTd.textContent = yearData.runnerUpPoints || '';
+                    tr.appendChild(runnerUpPointsTd);
+
+                    tbody.appendChild(tr);
+                });
+
+                updateTimestamp('history');
+
+            } catch (error) {
+                console.error('Error loading historical data:', error);
+                errorMessage.textContent = `Failed to load history: ${error.message}`;
+                errorDiv.style.display = 'block';
+                tbody.innerHTML = '';
+            }
+        }
+
+        // ===== Update Timestamp =====
+        function updateTimestamp(type) {
+            const now = new Date();
+            const timeString = now.toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            });
+
+            const timestampElement = document.getElementById(`${type}-timestamp`);
+            timestampElement.textContent = `Last updated: ${timeString}`;
+        }
+
+        // ===== Tab Manager =====
+        function switchTab(tabName) {
+            currentTab = tabName;
+
+            // Update buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                if (button.dataset.tab === tabName) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                if (content.id === `${tabName}-tab`) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+        }
+
+        // ===== Auto-Refresh =====
+        async function refreshData() {
+            const indicator = document.getElementById('refresh-indicator');
+
+            try {
+                // Show refresh indicator
+                indicator.classList.add('active');
+
+                // Refresh both datasets in parallel
+                await Promise.all([
+                    loadCurrentStandings(),
+                    loadHistoricalWinners()
+                ]);
+
+                console.log(`Data refreshed at ${new Date().toLocaleTimeString()}`);
+            } catch (error) {
+                console.error('Error during auto-refresh:', error);
+            } finally {
+                // Hide refresh indicator
+                setTimeout(() => {
+                    indicator.classList.remove('active');
+                }, 1000);
+            }
+        }
+
+        function setupAutoRefresh(minutes) {
+            // Clear existing timer if any
+            if (refreshTimer) {
+                clearInterval(refreshTimer);
+            }
+
+            // Set up new timer
+            const intervalMs = minutes * 60 * 1000;
+            refreshTimer = setInterval(refreshData, intervalMs);
+
+            console.log(`Auto-refresh enabled: every ${minutes} minutes`);
+        }
+
+        // ===== Initialization =====
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set up tab click handlers
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    switchTab(button.dataset.tab);
+                });
+            });
+
+            // Initial data load
+            loadCurrentStandings();
+            loadHistoricalWinners();
+
+            // Start auto-refresh
+            setupAutoRefresh(CONFIG.refreshInterval);
+
+            console.log('NFL Bracket Pool initialized');
+            console.log('Configuration:', CONFIG);
+        });
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', () => {
+            if (refreshTimer) {
+                clearInterval(refreshTimer);
+            }
+        });
+    </script>
+</body>
+</html>
